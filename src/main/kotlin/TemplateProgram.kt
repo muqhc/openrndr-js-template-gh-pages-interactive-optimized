@@ -4,6 +4,7 @@ import org.openrndr.draw.*
 import org.openrndr.events.*
 import org.openrndr.math.*
 import org.openrndr.shape.*
+import org.openrndr.extra.noclear.NoClear
 import kotlin.math.*
 
 suspend fun main() = applicationAsync {
