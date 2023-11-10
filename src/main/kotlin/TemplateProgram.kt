@@ -11,14 +11,39 @@ suspend fun main() = applicationAsync {
         title = "Your Title"
     }
     program {
+        var lastInterected = 0.0
+        var isInteracted = true
 
         val urlParamMap = getUrlParamMap(js("window.location.search"))
 
+        val scalePreset: Double = urlParamMap["scale"]?.toDoubleOrNull() ?: 1.0
+
+        // your own variables
+
+        mouse.moved.listen {
+            isInteracted = true
+        }
+
+        extend(NoClear())
+
         extend {
+            if (isInteracted) {
+                lastInterected = seconds
+                isInteracted = false
+            }
+
+            if ((seconds - lastInterected) > 0.5) return@extend
+
+            val mousePosition = mouse.position
+
+
+            // your own drawings
+
+
             val a = rgb("#ff0000")
             drawer.clear(a)
             drawer.fill = ColorRGBa.WHITE
-            drawer.circle(width / 2.0, height / 2.0, 100.0 + cos(seconds) * 40.0)
+            drawer.circle(mousePosition, (100.0 + cos(seconds) * 40.0)*scalePreset)
         }
     }
 }
